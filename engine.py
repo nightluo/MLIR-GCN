@@ -5,7 +5,7 @@ import torch.backends.cudnn as cudnn
 import torch.nn.parallel
 import torch.optim
 import torch.utils.data
-import torchnet as tnt
+import torchtnt as tnt
 import torchvision.transforms as transforms
 import torch.nn as nn
 from util import *
@@ -239,7 +239,8 @@ class Engine(object):
             self.on_start_batch(True, model, criterion, data_loader, optimizer)
 
             if self.state['use_gpu']:
-                self.state['target'] = self.state['target'].cuda(async=True)
+                # self.state['target'] = self.state['target'].cuda(async=True)
+                self.state['target'] = self.state['target'].cuda(non_blocking=True)
 
             self.on_forward(True, model, criterion, data_loader, optimizer)
 
@@ -275,7 +276,8 @@ class Engine(object):
             self.on_start_batch(False, model, criterion, data_loader)
 
             if self.state['use_gpu']:
-                self.state['target'] = self.state['target'].cuda(async=True)
+                # self.state['target'] = self.state['target'].cuda(async=True)
+                self.state['target'] = self.state['target'].cuda(non_blocking=True)
 
             self.on_forward(False, model, criterion, data_loader)
 
