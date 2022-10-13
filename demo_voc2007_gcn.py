@@ -4,7 +4,7 @@ from models import *
 from voc import *
 import os
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "5"
+# os.environ["CUDA_VISIBLE_DEVICES"] = "5"
 
 parser = argparse.ArgumentParser(description='WILDCAT Training')
 parser.add_argument('data', metavar='DIR',

@@ -11,7 +11,7 @@ import torch.nn as nn
 from util import *
 import os
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "5"
+# os.environ["CUDA_VISIBLE_DEVICES"] = "5"
 
 tqdm.monitor_interval = 0
 class Engine(object):
