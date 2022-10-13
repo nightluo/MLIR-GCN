@@ -5,10 +5,13 @@ import torch.backends.cudnn as cudnn
 import torch.nn.parallel
 import torch.optim
 import torch.utils.data
-import torchtnt as tnt
+import torchnet as tnt
 import torchvision.transforms as transforms
 import torch.nn as nn
 from util import *
+import os
+
+os.environ["CUDA_VISIBLE_DEVICES"] = "5"
 
 tqdm.monitor_interval = 0
 class Engine(object):
@@ -77,7 +80,7 @@ class Engine(object):
     def on_end_batch(self, training, model, criterion, data_loader, optimizer=None, display=True):
 
         # record loss
-        self.state['loss_batch'] = self.state['loss'].data[0]
+        self.state['loss_batch'] = self.state['loss'].item()
         self.state['meter_loss'].add(self.state['loss_batch'])
 
         if display and self.state['print_freq'] != 0 and self.state['iteration'] % self.state['print_freq'] == 0:
@@ -177,8 +180,8 @@ class Engine(object):
 
 
         if self.state['use_gpu']:
-            train_loader.pin_memory = True
-            val_loader.pin_memory = True
+            train_loader.pin_memory = False
+            val_loader.pin_memory = False
             cudnn.benchmark = True
 
 
@@ -408,13 +411,16 @@ class MultiLabelMAPEngine(Engine):
 
 class GCNMultiLabelMAPEngine(MultiLabelMAPEngine):
     def on_forward(self, training, model, criterion, data_loader, optimizer=None, display=True):
+        if not training:
+            with torch.no_grad():
+                feature_var = torch.autograd.Variable(self.state['feature']).float()
+                target_var = torch.autograd.Variable(self.state['target']).float()
+                inp_var = torch.autograd.Variable(self.state['input']).float().detach() 
+
         feature_var = torch.autograd.Variable(self.state['feature']).float()
         target_var = torch.autograd.Variable(self.state['target']).float()
         inp_var = torch.autograd.Variable(self.state['input']).float().detach()  # one hot
-        if not training:
-            feature_var.volatile = True
-            target_var.volatile = True
-            inp_var.volatile = True
+        
 
         # compute output
         self.state['output'] = model(feature_var, inp_var)

@@ -2,6 +2,9 @@ import argparse
 from engine import *
 from models import *
 from voc import *
+import os
+
+os.environ["CUDA_VISIBLE_DEVICES"] = "5"
 
 parser = argparse.ArgumentParser(description='WILDCAT Training')
 parser.add_argument('data', metavar='DIR',
@@ -37,8 +40,10 @@ parser.add_argument('-e', '--evaluate', dest='evaluate', action='store_true',
 def main_voc2007():
     global args, best_prec1, use_gpu
     args = parser.parse_args()
-
+    
     use_gpu = torch.cuda.is_available()
+    print(f"use_gpu? {use_gpu}")
+    
 
     # define dataset
     train_dataset = Voc2007Classification(args.data, 'trainval', inp_name='data/voc/voc_glove_word2vec.pkl')

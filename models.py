@@ -3,6 +3,9 @@ from torch.nn import Parameter
 from util import *
 import torch
 import torch.nn as nn
+import os
+
+os.environ["CUDA_VISIBLE_DEVICES"] = "5"
 
 class GraphConvolution(nn.Module):
     """
@@ -90,7 +93,12 @@ class GCNResnet(nn.Module):
                 ]
 
 
+def gcn_resnet101_v0(num_classes, t, pretrained=False, adj_file=None, in_channel=300):
+    model = models.resnet101(pretrained=pretrained)
+    return GCNResnet(model, num_classes, t=t, adj_file=adj_file, in_channel=in_channel)
 
 def gcn_resnet101(num_classes, t, pretrained=False, adj_file=None, in_channel=300):
-    model = models.resnet101(pretrained=pretrained)
+    import torchvision
+    model = models.resnet101(weights=torchvision.models.ResNet101_Weights.IMAGENET1K_V1
+)
     return GCNResnet(model, num_classes, t=t, adj_file=adj_file, in_channel=in_channel)

@@ -6,6 +6,9 @@ from tqdm import tqdm
 import numpy as np
 import random
 import torch.nn.functional as F
+import os
+
+os.environ["CUDA_VISIBLE_DEVICES"] = "5"
 
 class Warp(object):
     def __init__(self, size, interpolation=Image.BILINEAR):
