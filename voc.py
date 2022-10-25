@@ -19,6 +19,7 @@ object_categories = ['aeroplane', 'bicycle', 'bird', 'boat',
                      'sheep', 'sofa', 'train', 'tvmonitor']
 
 urls = {
+    # 开发工具代码和文档，matlab
     'devkit': 'http://host.robots.ox.ac.uk/pascal/VOC/voc2012/VOCdevkit_18-May-2011.tar',
     'trainval_2007': 'http://host.robots.ox.ac.uk/pascal/VOC/voc2007/VOCtrainval_06-Nov-2007.tar',
     'test_images_2007': 'http://host.robots.ox.ac.uk/pascal/VOC/voc2007/VOCtest_06-Nov-2007.tar',
@@ -222,7 +223,7 @@ class Voc2007Classification(data.Dataset):
         self.target_transform = target_transform
 
         # download dataset
-        download_voc2007(self.root)
+        # download_voc2007(self.root)
 
         # define path of csv file
         path_csv = os.path.join(self.root, 'files', 'VOC2007')
@@ -243,6 +244,7 @@ class Voc2007Classification(data.Dataset):
 
         with open(inp_name, 'rb') as f:
             self.inp = pickle.load(f)
+            print(self.inp)
         self.inp_name = inp_name
 
         print('[dataset] VOC 2007 classification set=%s number of classes=%d  number of images=%d' % (
@@ -263,3 +265,12 @@ class Voc2007Classification(data.Dataset):
 
     def get_number_classes(self):
         return len(self.classes)
+
+
+if __name__ == '__main__':
+    import argparse
+    parser = argparse.ArgumentParser(description='WILDCAT Training')
+    parser.add_argument('data', metavar='DIR', help='path to dataset (e.g. data/')
+    global args
+    args = parser.parse_args()
+    Voc2007Classification(args.data, 'trainval', inp_name='data/voc/voc_glove_word2vec.pkl')
