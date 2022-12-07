@@ -48,7 +48,7 @@ python3 demo_voc2007_gcn.py data/voc --image-size 448 --batch-size 32 -e --resum
 
 ### Demo COCO 2014
 ```sh
-CUDA_VISIBLE_DEVICES=1 python3 demo_coco_gcn.py /mnt/data/luoyan/coco/ --image-size 448 --batch-size 32 -e --resume checkpoint/coco/coco_checkpoint.pth.tar
+CUDA_VISIBLE_DEVICES=1 python3 demo_coco_gcn.py /mnt/data/luoyan/coco/GCN-data --image-size 448 --batch-size 32 -e --resume checkpoint/coco/coco_checkpoint.pth.tar
 ```
 
 ## Citing this repository

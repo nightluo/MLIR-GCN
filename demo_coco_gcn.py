@@ -44,11 +44,11 @@ def main_coco():
 
     use_gpu = torch.cuda.is_available()
 
-    train_dataset = COCO2014(args.data, phase='train', inp_name='data/coco/coco_glove_word2vec.pkl')
-    val_dataset = COCO2014(args.data, phase='val', inp_name='data/coco/coco_glove_word2vec.pkl')
+    train_dataset = COCO2014(args.data, phase='train', inp_name='/mnt/data/luoyan/coco/GCN-data/data/coco_glove_word2vec.pkl')
+    val_dataset = COCO2014(args.data, phase='val', inp_name='/mnt/data/luoyan/coco/GCN-data/data/coco_glove_word2vec.pkl')
     num_classes = 80
 
-    model = gcn_resnet101(num_classes=num_classes, t=0.4, adj_file='data/coco/coco_adj.pkl')
+    model = gcn_resnet101(num_classes=num_classes, t=0.4, adj_file='/mnt/data/luoyan/coco/GCN-data/data/coco_adj.pkl')
 
     # define loss function (criterion)
     criterion = nn.MultiLabelSoftMarginLoss()
